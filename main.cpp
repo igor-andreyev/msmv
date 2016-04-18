@@ -5,56 +5,11 @@
 
 #include <boost/program_options.hpp>
 #include <boost/optional.hpp>
-#include <boost/filesystem.hpp>
-#include <fstream>
 
 #include "ImageHandler.h"
 #include "TransformationsHolder.h"
 #include "RandomItem.h"
-
-
-std::vector<std::string> openDatabase(std::string & path, std::string & extension) {
-    namespace fs=boost::filesystem;
-
-    std::vector<std::string> result;
-    if (fs::exists(path)) {
-        if (fs::is_directory(path)) {
-            for (fs::recursive_directory_iterator it(path), it_end; it != it_end; ++it) {
-                if (fs::is_regular(*it) && it->path().extension() == extension) {
-                    result.push_back(it->path().string());
-                }
-            }
-        } else {
-            std::cerr << "Input database is not directory: " << path << std::endl;
-        }
-    } else {
-            std::cerr << "No input database available: " << path << std::endl;
-    }
-    return result;
-}
-
-bool prepareOutput(std::string & path) {
-    namespace fs=boost::filesystem;
-    fs::path p(path);
-    if(!fs::exists(path)) {
-        if (fs::exists(p.parent_path())) {
-            if(fs::is_directory(p.parent_path())) {
-                if(fs::create_directory(p)) {
-                    return true;
-                } else {
-                    std::cerr << "Cannot create output directory: " << p << std::endl;
-                }
-            } else {
-                std::cerr << "Target path is not directory: " << p.parent_path() << std::endl;
-            }
-        } else {
-            std::cerr << "Parent directory is not exists " << p.parent_path() << std::endl;
-        }
-    } else {
-        std::cerr << "Target path already exists: " << path << std::endl;
-    }
-    return false;
-}
+#include "ImageDB.h"
 
 int main(int argc, char *argv[]) {
     std::vector<OptionsHandler> handlers;
@@ -65,10 +20,10 @@ int main(int argc, char *argv[]) {
     TransformationsHolder transformationsHolder(handlers);
 
     std::string ext(".pgm");
-    auto paths = openDatabase(input, ext);
+    auto paths = ImageDB::openDatabase(input, ext);
     std::vector<std::string> result_table;
-    if (prepareOutput(output)) {
-        for(int i =0; i < count; i++) {
+    if (ImageDB::prepareOutput(output)) {
+        for(int i = 0; i < count; i++) {
             std::string path = *select_randomly(paths.begin(), paths.end());
             std::string out_path(output);
             out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(ext);
