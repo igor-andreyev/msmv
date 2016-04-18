@@ -1,5 +1,5 @@
 # msmv
-Usage: ./msmv_framework -i input_directory -o output_directory -c image_count [-t Transformation [TransformationOptions...] | ... ]
+Usage: `./msmv_framework -i input_directory -o output_directory -c image_count [-t Transformation [TransformationOptions...] | ... ]`
 
 # Currently Supported:
 * BrightAndContrast
