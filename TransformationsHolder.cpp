@@ -45,7 +45,8 @@ AbstractTransformation* TransformationsHolder::makeTransformation(const OptionsH
         case Resize::hash:
             return new Resize(h.args);
         case FishEye::hash:
-            return new FishEye(h.args):
+            return new FishEye(h.args);
+
         default:
             std::string error(std::string("Unknown transformation type: ").append(h.type));
             throw po::invalid_option_value(error);
