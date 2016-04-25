@@ -5,7 +5,7 @@
 #ifndef MSMV_FRAMEWORK_SALTPEPPERNOISE_H
 #define MSMV_FRAMEWORK_SALTPEPPERNOISE_H
 
-#include "AbstractTransformation.h"
+#include "AbstractTransformation.hpp"
 
 class SaltPepperNoise : public  AbstractTransformation {
 public:

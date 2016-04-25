@@ -1,16 +1,10 @@
 //
-// Created by iandreyev on 14.04.16.
+// Created by iandreyev on 25.04.16.
 //
 
-#ifndef MSMV_FRAMEWORK_OPTIONSPARSER_H
-#define MSMV_FRAMEWORK_OPTIONSPARSER_H
-
-
-struct OptionsHandler {
-    std::string type;
-    std::vector<std::string> args;
-};
-
+#include "Options.hpp"
+#include <vector>
+#include "boost/program_options.hpp"
 
 std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> parse_options(int argc, char *argv[]) {
     namespace po=boost::program_options;
@@ -59,7 +53,3 @@ std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> par
     }
     return std::make_tuple(result, input, output, count);
 }
-
-
-
-#endif //MSMV_FRAMEWORK_OPTIONSPARSER_H

@@ -5,7 +5,7 @@
 #ifndef MSMV_FRAMEWORK_GAUSSIANNOISE_H
 #define MSMV_FRAMEWORK_GAUSSIANNOISE_H
 
-#include "AbstractTransformation.h"
+#include "AbstractTransformation.hpp"
 
 
 class GaussianNoise: public AbstractTransformation {

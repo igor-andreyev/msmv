@@ -5,7 +5,7 @@
 #ifndef MSMV_FRAMEWORK_CONTRAST_H
 #define MSMV_FRAMEWORK_CONTRAST_H
 
-#include "AbstractTransformation.h"
+#include "AbstractTransformation.hpp"
 
 class BrightnessAndContrast : public AbstractTransformation {
 private:

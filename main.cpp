@@ -8,7 +8,7 @@
 
 #include "ImageHandler.h"
 #include "TransformationsHolder.h"
-#include "RandomItem.h"
+#include "RandomItem.hpp"
 #include "ImageDB.h"
 
 int main(int argc, char *argv[]) {
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
             std::string out_path(output);
             out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(ext);
             ImageHandler h(path, out_path);
-            h.setMat(transformationsHolder.tranform(h.getMat()));
+            h.setMat(transformationsHolder.transform(h.getMat()));
             h.write();
             std::cout << path << " - " << out_path << std::endl;
             result_table.push_back(std::string().append(out_path).append(" - ").append(path));

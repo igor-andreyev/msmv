@@ -6,7 +6,7 @@
 #define MSMV_FRAMEWORK_GAUSSIANBLUR_H
 
 
-#include "AbstractTransformation.h"
+#include "AbstractTransformation.hpp"
 
 
 class GaussianBlur: public AbstractTransformation {
