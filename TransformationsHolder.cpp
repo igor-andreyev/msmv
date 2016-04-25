@@ -3,6 +3,9 @@
 //
 
 #include "TransformationsHolder.h"
+#include "Compression.h"
+#include "Resize.h"
+#include "FishEye.h"
 
 TransformationsHolder::TransformationsHolder(std::vector<OptionsHandler> & _handlers) {
     for(auto h: _handlers) {
@@ -37,6 +40,12 @@ AbstractTransformation* TransformationsHolder::makeTransformation(const OptionsH
             return new SaltPepperNoise(h.args);
         case GaussianBlur::hash:
             return new GaussianBlur(h.args);
+        case Compression::hash:
+            return new Compression(h.args);
+        case Resize::hash:
+            return new Resize(h.args);
+        case FishEye::hash:
+            return new FishEye(h.args):
         default:
             std::string error(std::string("Unknown transformation type: ").append(h.type));
             throw po::invalid_option_value(error);
