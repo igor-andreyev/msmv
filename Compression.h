@@ -6,6 +6,8 @@
 #define MSMV_FRAMEWORK_COMPRESSION_H
 
 
+#include "AbstractTransformation.hpp"
+
 class Compression: public AbstractTransformation {
     public:
         const static unsigned hash = str_hash("Compression");
