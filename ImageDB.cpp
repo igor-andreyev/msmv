@@ -7,6 +7,8 @@
 
 std::vector<std::string> ImageDB::openDatabase(std::string & path, std::string & extension){
     std::vector<std::string> result;
+
+
     if (fs::exists(path)) {
         if (fs::is_directory(path)) {
             for (fs::recursive_directory_iterator it(path), it_end; it != it_end; ++it) {

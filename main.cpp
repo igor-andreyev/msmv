@@ -13,25 +13,27 @@
 
 int main(int argc, char *argv[]) {
     std::vector<OptionsHandler> handlers;
-    std::string input, output;
+    std::string input, output, extension;
     int count;
-    std::tie(handlers, input, output, count) = parse_options(argc, argv);
+    std::tie(handlers, input, output, count, extension) = parse_options(argc, argv);
 
     TransformationsHolder transformationsHolder(handlers);
 
-    std::string ext(".pgm");
-    auto paths = ImageDB::openDatabase(input, ext);
+    auto paths = ImageDB::openDatabase(input, extension);
     std::vector<std::string> result_table;
-    if (ImageDB::prepareOutput(output)) {
+    if (ImageDB::prepareOutput(output) && paths.size() > 0) {
         for(int i = 0; i < count; i++) {
             std::string path = *select_randomly(paths.begin(), paths.end());
             std::string out_path(output);
-            out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(ext);
+            std::string desc;
+            cv::Mat result;
+            out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(extension);
             ImageHandler h(path, out_path);
-            h.setMat(transformationsHolder.transform(h.getMat()));
+            std::tie(desc, result) = transformationsHolder.transform(h.getMat());
+            h.setMat(result);
             h.write();
             std::cout << path << " - " << out_path << std::endl;
-            result_table.push_back(std::string().append(out_path).append(" - ").append(path));
+            result_table.push_back(std::string().append(out_path).append(" - ").append(path).append(": ").append(desc));
 
         }
 

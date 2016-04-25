@@ -21,18 +21,27 @@ constexpr unsigned int str_hash(const char * str, int h = 0) {
 
 class AbstractTransformation {
 public:
-    const static unsigned hash = str_hash("Abstract");
+    constexpr static char* name = "Abstract";
 
-    AbstractTransformation(std::vector<std::string> & args) {}
+    AbstractTransformation(std::vector<std::string> & args, const char* _name): p_name(_name), p_args(args) {}
 
-    cv::Mat transform(cv::Mat & _image) {
+    std::tuple<std::vector<std::string>, cv::Mat> transform(cv::Mat & _image) {
         this->m_image = _image;
         return this->apply();
     };
 
+    const std::string &getP_name() const {
+        return p_name;
+    }
+
+private:
+    std::string p_name;
+
+public:
+    std::vector<std::string>  p_args;
 
 protected:
-    virtual cv::Mat apply() = 0;
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply() = 0;
     cv::Mat m_image;
 };
 

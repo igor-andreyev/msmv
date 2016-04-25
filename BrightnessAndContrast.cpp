@@ -4,7 +4,7 @@
 
 #include "BrightnessAndContrast.h"
 
-cv::Mat BrightnessAndContrast::apply() {
+std::tuple<std::vector<std::string>, cv::Mat> BrightnessAndContrast::apply() {
     cv::Mat result = cv::Mat::zeros(this->m_image.size(), this->m_image.type());
     for( int y = 0; y < this->m_image.rows; y++ ) {
         for( int x = 0; x < this->m_image.cols; x++ ) {
@@ -14,5 +14,6 @@ cv::Mat BrightnessAndContrast::apply() {
         }
     }
 
-    return result;
+    return std::tuple<std::vector<std::string>, cv::Mat>(this->p_args, result);
 }
+

@@ -9,12 +9,13 @@
 
 class SaltPepperNoise : public  AbstractTransformation {
 public:
-    const static unsigned hash = str_hash("SaltPepperNoise");
+    constexpr static char* name = "SaltPepperNoise";
+
 protected:
-    virtual cv::Mat apply();
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
 
 public:
-    SaltPepperNoise(std::vector<std::string> args) : AbstractTransformation(args) {
+    SaltPepperNoise(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
         if(args.size() < 1)
             throw po::required_option("Black level in SaltPepper noise");
         if(args.size() < 2)

@@ -9,9 +9,9 @@
 
 class Resize: public AbstractTransformation {
 public:
-    const static unsigned hash = str_hash("Resize");
+    constexpr static char* name = "Resize";
 
-    Resize(std::vector<std::string> args) : AbstractTransformation(args) {
+    Resize(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
             if(args.size() < 1)
                 throw po::required_option("Size x in Resize");
             if(args.size() < 2)
@@ -21,7 +21,7 @@ public:
     }
 
 protected:
-    virtual cv::Mat apply();
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
 
 private:
     int m_x, m_y;

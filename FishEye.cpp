@@ -124,8 +124,9 @@ void fishEye(InputArray _src, OutputArray _dst, double Cx, double Cy, double k, 
     remap(src, _dst, mapx, mapy, CV_INTER_LINEAR, BORDER_CONSTANT);
 }
 
-cv::Mat FishEye::apply() {
+tuple<vector<string>, Mat> FishEye::apply() {
     cv::Mat img = this->m_image.clone();
     fishEye(this->m_image, img, this->m_cx, this->m_cy, this->m_k);
-    return img;
+    return std::tuple<std::vector<std::string>, cv::Mat>(this->p_args, img);
 }
+

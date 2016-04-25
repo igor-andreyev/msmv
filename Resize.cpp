@@ -5,8 +5,8 @@
 #include "Resize.h"
 
 
-cv::Mat Resize::apply() {
+std::tuple<std::vector<std::string>, cv::Mat> Resize::apply() {
     cv::Mat img(cv::Size(this->m_x, this->m_y), this->m_image.depth(), this->m_image.channels());
     cv::resize(this->m_image, img, img.size());
-    return img;
+    return std::tuple<std::vector<std::string>, cv::Mat>(this->p_args,img);
 }

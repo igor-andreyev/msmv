@@ -3,14 +3,13 @@
 //
 
 #include "Options.hpp"
-#include <vector>
 #include "boost/program_options.hpp"
 
-std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> parse_options(int argc, char *argv[]) {
+std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int, std::string> parse_options(int argc, char *argv[]) {
     namespace po=boost::program_options;
-    po::options_description description(std::string("Usage: ") + std::string(argv[0]) + " -i input -o output {--transformation [options]}");
+    po::options_description description(std::string("Usage: ") + std::string(argv[0]) + " -i input_directory -o output_directory -c image_count -e extension {--transformation [options]}");
     std::vector<OptionsHandler> result;
-    std::string input, output;
+    std::string input, output, extension;
     int count;
     try {
         description.add_options()
@@ -18,6 +17,7 @@ std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> par
                 ("input,i", po::value<std::string>(&input)->required(), "Input database directory")
                 ("output,o", po::value<std::string>(&output)->required(), "Output directory")
                 ("count,c", po::value<int>(&count)->required(), "Image count")
+                ("extension,e", po::value<std::string>(&extension)->required(), "Image extension")
                 ("transformation,t", po::value<std::vector<std::string>>()->multitoken()->required(), "Transformations list")
                 ;
 
@@ -49,7 +49,12 @@ std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> par
     } catch (const po::error &e) {
         std::cerr << e.what() << std::endl;
         std::cerr << description << std::endl;
-        result.clear();
+        exit(1);
     }
-    return std::make_tuple(result, input, output, count);
+
+    std::string ext="";
+    if(extension[0]!='.')
+        ext.append(".");
+    ext.append(extension);
+    return std::make_tuple(result, input, output, count, ext);
 }

@@ -5,8 +5,8 @@
 
 #include "GaussianBlur.h"
 
-cv::Mat GaussianBlur::apply() {
+std::tuple<std::vector<std::string>, cv::Mat> GaussianBlur::apply() {
     cv::Mat result = cv::Mat::zeros(this->m_image.size(), this->m_image.type());
     cv::GaussianBlur(this->m_image, result, this->m_window, this->m_stddev);
-    return result;
+    return std::tuple<std::vector<std::string>, cv::Mat>(this->p_args, result);
 }

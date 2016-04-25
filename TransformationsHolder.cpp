@@ -13,7 +13,7 @@ TransformationsHolder::TransformationsHolder(std::vector<OptionsHandler> & _hand
     }
 }
 
-cv::Mat TransformationsHolder::transform(ImageHandler _image) {
+std::tuple<std::string, cv::Mat> TransformationsHolder::transform(ImageHandler _image) {
     return chain(transformations, _image.getMat());
 }
 
@@ -22,29 +22,35 @@ TransformationsHolder::~TransformationsHolder() {
         delete t;
 }
 
-cv::Mat TransformationsHolder::chain(std::vector<AbstractTransformation *> &  _ops, const cv::Mat & _mat) {
+std::tuple<std::string, cv::Mat> TransformationsHolder::chain(std::vector<AbstractTransformation *> &  _ops, const cv::Mat & _mat) {
     cv::Mat result;
     cv::Mat tmp = _mat;
+    std::string desc = "";
     for(size_t i = 0; i < _ops.size(); i++) {
-        result = _ops[i]->transform(tmp);
+        std::vector<std::string> args;
+        std::tie(args, result) = _ops[i]->transform(tmp);
+        desc.append(_ops[i]->getP_name()).append("(");
+        for( std::string t: args)
+            desc.append(t).append(" ");
+        desc.append(")-> ");
         tmp = result;
     }
-    return result;
+    return std::tuple<std::string, cv::Mat>(desc,result);
 }
 
 AbstractTransformation* TransformationsHolder::makeTransformation(const OptionsHandler &h) {
     switch (str_hash(h.type.c_str())) {
-        case GaussianNoise::hash:
+        case str_hash(GaussianNoise::name):
             return new GaussianNoise(h.args);
-        case SaltPepperNoise::hash:
+        case str_hash(SaltPepperNoise::name):
             return new SaltPepperNoise(h.args);
-        case GaussianBlur::hash:
+        case str_hash(GaussianBlur::name):
             return new GaussianBlur(h.args);
-        case Compression::hash:
+        case str_hash(Compression::name):
             return new Compression(h.args);
-        case Resize::hash:
+        case str_hash(Resize::name):
             return new Resize(h.args);
-        case FishEye::hash:
+        case str_hash(FishEye::name):
             return new FishEye(h.args);
 
         default:

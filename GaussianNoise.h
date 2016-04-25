@@ -10,9 +10,9 @@
 
 class GaussianNoise: public AbstractTransformation {
 public:
-    const static unsigned hash = str_hash("GaussianNoise");
+    constexpr static char* name = "GaussianNoise";
 
-    GaussianNoise(std::vector<std::string> args) : AbstractTransformation(args) {
+    GaussianNoise(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
         if(args.size() < 1)
             throw po::required_option("Mean in Gaussian noise");
         if(args.size() < 2)
@@ -22,7 +22,7 @@ public:
     }
 
 protected:
-    virtual cv::Mat apply();
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
 
 private:
     int m_mean, m_stddev;

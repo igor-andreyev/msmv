@@ -14,11 +14,11 @@
 class TransformationsHolder {
 public:
     TransformationsHolder(std::vector<OptionsHandler> & _handlers);
-    cv::Mat transform(ImageHandler _image);
+    std::tuple<std::string, cv::Mat> transform(ImageHandler _image);
     virtual ~TransformationsHolder();
 
 private:
-    cv::Mat chain(std::vector<AbstractTransformation *> &  _ops, const cv::Mat & _mat);
+    std::tuple<std::string, cv::Mat> chain(std::vector<AbstractTransformation *> &  _ops, const cv::Mat & _mat);
     AbstractTransformation* makeTransformation(const OptionsHandler &h);
 
     std::vector<AbstractTransformation*> transformations;

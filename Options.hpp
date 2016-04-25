@@ -14,7 +14,7 @@ struct OptionsHandler {
 };
 
 
-std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int> parse_options(int argc, char *argv[]);
+std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int, std::string> parse_options(int argc, char *argv[]);
 
 
 #endif //MSMV_FRAMEWORK_OPTIONSPARSER_H

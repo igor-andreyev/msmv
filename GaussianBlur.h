@@ -12,8 +12,9 @@
 class GaussianBlur: public AbstractTransformation {
 
 public:
-    const static unsigned hash = str_hash("GaussianBlur");
-    GaussianBlur(std::vector<std::string> args) : AbstractTransformation(args) {
+    constexpr static char* name = "GaussianBlur";
+
+    GaussianBlur(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
         if (args.size() < 1)
             throw po::required_option("WindowX in Gaussian noise");
         if (args.size() < 2)
@@ -25,7 +26,7 @@ public:
     }
 
 protected:
-    virtual cv::Mat apply();
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
 
 private:
     double m_stddev;

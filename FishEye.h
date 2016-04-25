@@ -9,9 +9,9 @@
 
 class FishEye : public AbstractTransformation {
 public:
-    const static unsigned hash = str_hash("FishEye");
+    constexpr static char* name = "FishEye";
 
-    FishEye(std::vector<std::string> args) : AbstractTransformation(args) {
+    FishEye(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
         if(args.size() < 1)
             throw po::required_option("Cx in FishEye");
         if(args.size() < 2)
@@ -24,7 +24,7 @@ public:
     }
 
 protected:
-    virtual cv::Mat apply();
+    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
 
 private:
     double m_cx, m_cy, m_k;
