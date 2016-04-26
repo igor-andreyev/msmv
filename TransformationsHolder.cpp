@@ -5,7 +5,7 @@
 #include "TransformationsHolder.h"
 #include "Compression.h"
 #include "Resize.h"
-#include "FishEye.h"
+#include "LensDistort.h"
 
 TransformationsHolder::TransformationsHolder(std::vector<OptionsHandler> & _handlers) {
     for(auto h: _handlers) {
@@ -50,8 +50,8 @@ AbstractTransformation* TransformationsHolder::makeTransformation(const OptionsH
             return new Compression(h.args);
         case str_hash(Resize::name):
             return new Resize(h.args);
-        case str_hash(FishEye::name):
-            return new FishEye(h.args);
+        case str_hash(LensDistort::name):
+            return new LensDistort(h.args);
 
         default:
             std::string error(std::string("Unknown transformation type: ").append(h.type));
