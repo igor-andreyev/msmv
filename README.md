@@ -2,13 +2,13 @@
 Usage: `./msmv_framework -i input_directory -o output_directory -c image_count [-t Transformation [TransformationOptions | ...] | ... ]`
 
 # Currently Supported Transformations:
-* BrightAndContrast
-* SaltPepperNoise
-* GaussianNoise
-* GaussianBlur
-* Compresssion
-* Resize
-* 
+* BrightAndContrast(aplha, bias): alpha * x + bias
+* SaltPepperNoise(black, white): 
+* GaussianNoise(mean, stddev):
+* GaussianBlur(windows_x, windows_y, stddev):
+* Compresssion(compression_type, level): only JPEG or PNG supported
+* Resize(size_x, size_y):
+* LensDistort(k1,k2,p1,p2):
 
 
 
