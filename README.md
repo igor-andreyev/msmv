@@ -1,5 +1,5 @@
 # msmv
-Usage: `./msmv_framework -i input_directory -o output_directory -c image_count [-t Transformation [TransformationOptions | ...] | ... ]`
+Usage: `./msmv_framework -i input_directory -e extension -o output_directory -c image_count [-t Transformation [TransformationOptions | ...] | ... ]`
 
 # Currently Supported Transformations:
 * BrightAndContrast(aplha, bias): alpha * x + bias
@@ -15,4 +15,4 @@ Usage: `./msmv_framework -i input_directory -o output_directory -c image_count [
 
 
 Sample run: 
-`./msmv_framework -t GaussianNoise 128 80  -t SaltPepperNoise 10 245 -t GaussianBlur 5 5 0.8 -i ./CroppedYale/yaleB02 -o ./test_output -c 10`
+`./msmv_framework -t GaussianNoise 128 80  -t SaltPepperNoise 10 245 -t GaussianBlur 5 5 0.8 -i ./CroppedYale/yaleB02 -o ./test_output -c 10 -e pgm`
