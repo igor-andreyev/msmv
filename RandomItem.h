@@ -1,13 +1,10 @@
 //
 // Created by iandreyev on 14.04.16.
 //
-
-#ifndef MSMV_FRAMEWORK_RANDOMITEM_H
-#define MSMV_FRAMEWORK_RANDOMITEM_H
-
+#pragma once
 #include <algorithm>
-#include <ctime>
 #include <cstdlib>
+
 
 template<typename Iter, typename RandomGenerator>
 Iter select_randomly(Iter start, Iter end, RandomGenerator& g) {
@@ -23,5 +20,10 @@ Iter select_randomly(Iter start, Iter end) {
     return select_randomly(start, end, gen);
 }
 
+double randomize(double a, double b);
 
-#endif //MSMV_FRAMEWORK_RANDOMITEM_H
+int randomize(int a, int b);
+
+int odd_randomize(int a, int b);
+
+

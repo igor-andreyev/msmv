@@ -45,8 +45,14 @@ cv::Mat distort_wrapper(cv::Mat _src, double k1, double k2, double p1, double p2
 
 
 
-tuple<vector<string>, Mat> LensDistort::apply() {
-    cv::Mat result = distort_wrapper(this->m_image, this->m_k1, this->m_k2, this->m_p1, -this->m_p2);
-    return std::tuple<std::vector<std::string>, cv::Mat>(this->p_args, result);
+tuple<arguments, Mat> LensDistort::apply() {
+    double m_k1, m_k2, m_p1, m_p2;
+    m_k1 = randomize(this->m_k1_min, this->m_k1_max);
+    m_k2 = randomize(this->m_k2_min, this->m_k2_max);
+    m_p1 = randomize(this->m_p1_min, this->m_p1_max);
+    m_p2 = randomize(this->m_p2_min, this->m_p2_max);
+    cv::Mat result = distort_wrapper(this->m_image, m_k1, m_k2, m_p1, m_p2);
+    return std::tuple<arguments, cv::Mat>(arguments {std::to_string(m_k1), std::to_string(m_k2), std::to_string(m_p1), std::to_string(m_p2)}, result);
 }
+
 

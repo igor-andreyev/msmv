@@ -13,8 +13,16 @@ struct OptionsHandler {
     std::vector<std::string> args;
 };
 
+struct Options {
+    std::vector<OptionsHandler> handlers;
+    std::string input;
+    std::string output;
+    int count;
+    std::string extension;
+};
 
-std::tuple<const std::vector<OptionsHandler>, std::string, std::string, int, std::string> parse_options(int argc, char *argv[]);
+
+Options parse_options(int argc, char **argv);
 
 
 #endif //MSMV_FRAMEWORK_OPTIONSPARSER_H

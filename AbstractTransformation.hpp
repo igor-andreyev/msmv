@@ -11,21 +11,24 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
-
+#include "RandomItem.h"
 namespace po=boost::program_options;
 
+
+typedef std::vector<std::string> arguments;
 
 constexpr unsigned int str_hash(const char * str, int h = 0) {
     return !str[h] ? 5381 : (str_hash(str, h+1)*33) ^ str[h];
 }
 
+
 class AbstractTransformation {
 public:
     constexpr static char* name = "Abstract";
 
-    AbstractTransformation(std::vector<std::string> & args, const char* _name): p_name(_name), p_args(args) {}
+    AbstractTransformation(arguments & args, const char* _name): p_name(_name) {}
 
-    std::tuple<std::vector<std::string>, cv::Mat> transform(cv::Mat & _image) {
+    std::tuple<arguments, cv::Mat> transform(cv::Mat & _image) {
         this->m_image = _image;
         return this->apply();
     };
@@ -34,14 +37,14 @@ public:
         return p_name;
     }
 
+
+
+
 private:
     std::string p_name;
 
-public:
-    std::vector<std::string>  p_args;
-
 protected:
-    virtual std::tuple<std::vector<std::string>, cv::Mat> apply() = 0;
+    virtual std::tuple<arguments, cv::Mat> apply() = 0;
     cv::Mat m_image;
 };
 

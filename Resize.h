@@ -11,20 +11,26 @@ class Resize: public AbstractTransformation {
 public:
     constexpr static char* name = "Resize";
 
-    Resize(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
-            if(args.size() < 1)
-                throw po::required_option("Size x in Resize");
-            if(args.size() < 2)
-                throw po::required_option("Size y in Resize");
-            m_x = boost::lexical_cast<int>(args[0]);
-            m_y = boost::lexical_cast<int>(args[1]);
+    Resize(arguments args) : AbstractTransformation(args, this->name) {
+        if(args.size() < 1)
+            throw po::required_option("Min Size x in Resize");
+        if(args.size() < 2)
+            throw po::required_option("Max Size x in Resize");
+        if(args.size() < 3)
+            throw po::required_option("Min Size y in Resize");
+        if(args.size() < 4)
+            throw po::required_option("Max Size y in Resize");
+        m_x_min = boost::lexical_cast<int>(args[0]);
+        m_x_max = boost::lexical_cast<int>(args[1]);
+        m_y_min = boost::lexical_cast<int>(args[2]);
+        m_y_max = boost::lexical_cast<int>(args[3]);
     }
 
 protected:
-    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
+    virtual std::tuple<arguments, cv::Mat> apply();
 
 private:
-    int m_x, m_y;
+    int m_x_min, m_y_min, m_x_max, m_y_max;
 
 };
 

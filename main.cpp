@@ -3,31 +3,29 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <boost/program_options.hpp>
-#include <boost/optional.hpp>
 
 #include "ImageHandler.h"
 #include "TransformationsHolder.h"
-#include "RandomItem.hpp"
 #include "ImageDB.h"
+#include "RandomItem.h"
+
+
 
 int main(int argc, char *argv[]) {
-    std::vector<OptionsHandler> handlers;
-    std::string input, output, extension;
-    int count;
-    std::tie(handlers, input, output, count, extension) = parse_options(argc, argv);
 
-    TransformationsHolder transformationsHolder(handlers);
+    Options opt = parse_options(argc, argv);
 
-    auto paths = ImageDB::openDatabase(input, extension);
+    TransformationsHolder transformationsHolder(opt.handlers);
+
+    auto paths = ImageDB::openDatabase(opt.input, opt.extension);
     std::vector<std::string> result_table;
-    if (ImageDB::prepareOutput(output) && paths.size() > 0) {
-        for(int i = 0; i < count; i++) {
+    if (ImageDB::prepareOutput(opt.output) && paths.size() > 0) {
+        for(int i = 0; i < opt.count; i++) {
             std::string path = *select_randomly(paths.begin(), paths.end());
-            std::string out_path(output);
+            std::string out_path(opt.output);
             std::string desc;
             cv::Mat result;
-            out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(extension);
+            out_path.append("/").append(boost::lexical_cast<std::string>(i)).append(opt.extension);
             ImageHandler h(path, out_path);
             std::tie(desc, result) = transformationsHolder.transform(h.getMat());
             h.setMat(result);
@@ -37,7 +35,7 @@ int main(int argc, char *argv[]) {
 
         }
 
-        std::string result_table_file(output);
+        std::string result_table_file(opt.output);
         result_table_file.append("/result.txt");
         std::ofstream output_file(result_table_file);
 

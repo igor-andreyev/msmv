@@ -1,6 +1,7 @@
 # msmv
-Usage: `./msmv_framework -i input_directory -e extension -o output_directory -c image_count [-t Transformation [TransformationOptions | ...] | ... ]`
+Usage: `./msmv_framework --input input_directory --extension extension --output output_directory --count image_count [--transformation Transformation [TransformationOptions | ...] | ... ]`
 
+Min and max values should be specified for each numerical transformation's option.
 # Currently Supported Transformations:
 * BrightAndContrast(aplha, bias): alpha * x + bias
 * SaltPepperNoise(black, white): 
@@ -15,4 +16,4 @@ Usage: `./msmv_framework -i input_directory -e extension -o output_directory -c 
 
 
 Sample run: 
-`./msmv_framework -t GaussianNoise 128 80  -t SaltPepperNoise 10 245 -t GaussianBlur 5 5 0.8 -i ./CroppedYale/yaleB02 -o ./test_output -c 10 -e pgm`
+`./msmv_framework --transformation GaussianNoise 120 128 80 90  --input ./CroppedYale/yaleB02 --output ./test_output --count 10 --extension pgm`

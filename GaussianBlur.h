@@ -14,23 +14,38 @@ class GaussianBlur: public AbstractTransformation {
 public:
     constexpr static char* name = "GaussianBlur";
 
-    GaussianBlur(std::vector<std::string> args) : AbstractTransformation(args, this->name) {
+    GaussianBlur(arguments args) : AbstractTransformation(args, this->name) {
         if (args.size() < 1)
-            throw po::required_option("WindowX in Gaussian noise");
+            throw po::required_option("Min WindowX in Gaussian noise");
         if (args.size() < 2)
-            throw po::required_option("WindowY in Gaussian noise");
+            throw po::required_option("Max WindowX in Gaussian noise");
+
         if (args.size() < 3)
-            throw po::required_option("Stddev in Gaussian noise");
-        m_window = cv::Size(boost::lexical_cast<int>(args[0]), boost::lexical_cast<int>(args[1]));
-        m_stddev = boost::lexical_cast<double>(args[2]);
+            throw po::required_option("Min WindowY in Gaussian noise");
+        if (args.size() < 4)
+            throw po::required_option("Max WindowY in Gaussian noise");
+
+        if (args.size() < 5)
+            throw po::required_option("Min Stddev in Gaussian noise");
+        if (args.size() < 6)
+            throw po::required_option("Max Stddev in Gaussian noise");
+
+
+        m_window_x_min = boost::lexical_cast<int>(args[0]);
+        m_window_x_max = boost::lexical_cast<int>(args[1]);
+        m_window_y_min = boost::lexical_cast<int>(args[2]);
+        m_window_y_max = boost::lexical_cast<int>(args[3]);
+
+        m_stddev_min = boost::lexical_cast<double>(args[4]);
+        m_stddev_max = boost::lexical_cast<double>(args[5]);
     }
 
 protected:
-    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
+    virtual std::tuple<arguments, cv::Mat> apply();
 
 private:
-    double m_stddev;
-    cv::Size m_window;
+    double m_stddev_min, m_stddev_max;
+    int m_window_x_max, m_window_x_min, m_window_y_max, m_window_y_min;
 
 };
 

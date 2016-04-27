@@ -8,23 +8,29 @@
 #include "AbstractTransformation.hpp"
 
 class BrightnessAndContrast : public AbstractTransformation {
-    constexpr static char* name = "BrightnessAndContrast";
 private:
-    float m_alpha, m_bias=0.0;
+    float m_alpha_min, m_alpha_max, m_bias_min, m_bias_max=0.0;
 protected:
-    virtual std::tuple<std::vector<std::string>, cv::Mat> apply();
+    virtual std::tuple<arguments, cv::Mat> apply();
 
 public:
-    BrightnessAndContrast(std::vector<std::string> & args)
+    BrightnessAndContrast(arguments args)
             : AbstractTransformation(args, this->name) {
         if(args.size() < 1)
-            throw po::required_option("Alpha level in BrightnessAndContrast noise");
+            throw po::required_option("Minimum alpha level in BrightnessAndContrast noise");
         if(args.size() < 2)
-            throw po::required_option("Bias level in BrightnessAndContrast noise");
-        m_alpha = boost::lexical_cast<float>(args[0]);
-        m_bias = boost::lexical_cast<float>(args[1]);
+            throw po::required_option("Maximum alpha level in BrightnessAndContrast noise");
+        if(args.size() < 3)
+            throw po::required_option("Minimum bias level in BrightnessAndContrast noise");
+        if(args.size() < 4)
+            throw po::required_option("Maximum bias level in BrightnessAndContrast noise");
+        m_alpha_min = boost::lexical_cast<float>(args[0]);
+        m_alpha_max = boost::lexical_cast<float>(args[1]);
+        m_bias_min = boost::lexical_cast<float>(args[2]);
+        m_bias_max =  boost::lexical_cast<float>(args[3]);
     }
 
+    constexpr static char* name = "BrightnessAndContrast";
 };
 
 
